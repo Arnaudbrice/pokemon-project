@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <script src="pokedex.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokédex</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Afacad:ital,wght@0,400..700;1,400..700&family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+
+  <header>
+    <h1 class="text-3xl font-bold mb-4">Pokémon Cards</h1>
+    <nav class="navbar bg-[#362717] text-white flex justify-around items-center py-2">
+      <ul class="nav-list flex gap-8 text-lg">
+        <li class=" hover:underline"><a href="./index.html">Home</a></li>
+        <li class=" hover:underline"><a href="./pokedex.html">Pokédex</a></li>
+      </ul>
+      <div class="search-container">
+        <div class="search-form flex items-center gap-4">
+          <input type="text" id="search-input" placeholder="search" class="border-1 rounded-md px-2">
+          <!-- <button class="search-btn hover:bg-slate-400" type="submit">suchen</button> -->
+          <img class="search-icon bg-[#815717] right-3 w-5 h-5 cursor-pointer rounded-md "
+            src="./img/icons8-suche-16.png" alt="suchen">
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <script src="pokedex.js"></script>
+</body>
+
 </html>
