@@ -37,6 +37,8 @@ const fetchData = async () => {
     // pokemonContainer.style.backgroundColor = "";
     // array of pokemon object with name url
     const results = data.results;
+    let caughtPokemon = [];
+
     for (const pokemon of results) {
       const pokemonContainerItem = document.createElement("div");
       const itemHeading = document.createElement("h2");
@@ -55,22 +57,33 @@ const fetchData = async () => {
       console.log(pokemonDataJson);
       // itemType.textContent = pokemonDataJson.types[0].type.name;
       itemType.textContent = `Type: ${pokemonDataJson.types
-        .map(type => type.type.name)
+        .map((type) => type.type.name)
         .join(", ")}`;
 
       pokemonContainerItem.appendChild(itemHeading);
       pokemonContainerItem.appendChild(itemImage);
       pokemonContainerItem.appendChild(itemType);
+      const catchButton = document.createElement("button");
+      catchButton.textContent = "Catched";
+      catchButton.className = "bg-blue-500 text-white px-2 py-1 rounded"; // Beispiel-Tailwind-Klassen
+      pokemonContainerItem.appendChild(catchButton);
+      catchButton.addEventListener("click", function () {
+        JSON.parse(localStorage.getItem("caughtPokemon"));
+        let caught = JSON.parse(localStorage.getItem("caughtPokemon")) || [];
+        caught.push(pokemon);
+        localStorage.setItem("caughtPokemon", JSON.stringify(caught));
+        console.log(caughtPokemon);
+      });
       pokemonContainer.appendChild(pokemonContainerItem);
 
       // styling
       pokemonContainerItem.classList.add("rounded-md", "p-4");
 
-      pokemonContainerItem.addEventListener("mouseover", function(event) {
+      pokemonContainerItem.addEventListener("mouseover", function (event) {
         this.style.transform = "scale(1.05)";
         this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
       });
-      pokemonContainerItem.addEventListener("mouseout", function(event) {
+      pokemonContainerItem.addEventListener("mouseout", function (event) {
         this.style.transform = "scale(1)";
         this.style.boxShadow = "none";
       });
