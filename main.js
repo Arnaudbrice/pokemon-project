@@ -120,7 +120,7 @@ footer.classList.add(
 );
 
 const footerParagraph = document.createElement("p");
-footerParagraph.textContent = `Made with ❤️ by Arnaud ©${new Date().getFullYear()} All rights reserved`;
+footerParagraph.textContent = `Made with ❤️ by Arnaud,Yan,Marvin,Ahmed ©${new Date().getFullYear()} All rights reserved`;
 footerParagraph.classList.add(
   "text-white",
   "bg-[#362717]",
