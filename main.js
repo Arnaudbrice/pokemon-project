@@ -13,7 +13,7 @@ heading.classList.add("py-12");
 
 const fetchData = async () => {
   try {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=150");
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
     if (!response.ok) {
       throw new Error(
         `Error fetching data from the Pokémon API with status ${response.status}`
