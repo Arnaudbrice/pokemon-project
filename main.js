@@ -143,7 +143,7 @@ const populate = async (data) => {
       "py-4",
       "mt-4",
       "border-t-4",
-      "border-t-[#faf7f4]",
+      "border-t-[#53412D]/20", //border top with opacity 0.2
       "text-xl",
     );
   }
