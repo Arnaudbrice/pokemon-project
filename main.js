@@ -203,7 +203,10 @@ const searchPokemon = (allPokemon) => {
   searchCancelBtn.classList.add(
     "cancel-btn",
     "border-1",
-    "px-2",
+    "border-[#362717]",
+    "my-2",
+    "rounded-md",
+    "shadow-md",
     "hover:cursor-pointer"
   );
 
@@ -212,7 +215,7 @@ const searchPokemon = (allPokemon) => {
     searchResult.classList.remove("hidden");
     const searchContent = searchInput.value.trim().toLowerCase();
 
-    // --------- found the Pokemon and display
+    // -- found the Pokemon and display --
     const foundPokemon = allPokemon.find(
       (pokemon) =>
         pokemon.data.name === searchContent ||
@@ -221,19 +224,23 @@ const searchPokemon = (allPokemon) => {
 
     if (!foundPokemon) {
       searchResult.textContent = "please enter a name od ID!";
-      searchResult.classList.add("flex", "justify-between");
+      searchResult.classList.add("flex", "flex-col");
       searchResult.appendChild(searchCancelBtn);
       return;
     }
     // ---------------- display search result ---------------
-    const temp = `<ul class="result-container flex flex-col font-bold">
+    const foundPokemonType = foundPokemon.data.types
+      .map((type) => type.type.name)
+      .join(", ");
+    const temp = `<ul class="result-container flex flex-col font-bold items-center">
     <li> ID : ${foundPokemon.data.id}</li>
     <li> name: ${foundPokemon.name}</li>
-    <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" class=" bg-cover"></li>
+    <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" </li>
+    <li>Type: ${foundPokemonType} </li>
     </ul>`;
     searchResult.innerHTML = temp;
     searchResult.classList.add("flex", "flex-col", "justify-between");
-    searchCancelBtn.classList.add("my-2");
+    searchCancelBtn.classList.add("my-4");
     searchResult.appendChild(searchCancelBtn);
   });
   // -- cancel the search --
