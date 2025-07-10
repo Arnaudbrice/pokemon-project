@@ -163,16 +163,17 @@ var populate = function populate(data) {
             pokemonContainerItem.appendChild(itemType);
             pokemonContainer.appendChild(pokemonContainerItem); // container item styling
 
-            pokemonContainerItem.classList.add("rounded-md", "p-4");
+            pokemonContainerItem.classList.add("rounded-md", "p-4", "bg-[#ffffff]");
+            pokemonContainerItem.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)"; // pokemon container card hover effect
+
             pokemonContainerItem.addEventListener("mouseover", function (event) {
               this.style.transform = "scale(1.05)";
-              this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+              this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)";
             });
             pokemonContainerItem.addEventListener("mouseout", function (event) {
               this.style.transform = "scale(1)";
-              this.style.boxShadow = "none";
-            });
-            pokemonContainerItem.style.backgroundColor = "#ffffff"; // container item heading h2 styling
+              this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+            }); // container item heading h2 styling
 
             itemHeading.classList.add("font-bold", "text-2xl", "mb-2", "text-white", "bg-[#362717]", "rounded-md"); // container item image styling
 

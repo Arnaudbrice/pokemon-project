@@ -25,7 +25,7 @@ const fetchData = async () => {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
     if (!response.ok) {
       throw new Error(
-        `Error fetching data from the Pokémon API with status ${response.status}`
+        `Error fetching data from the Pokémon API with status ${response.status}`,
       );
     }
 
@@ -39,7 +39,7 @@ const fetchData = async () => {
 
 fetchData();
 
-const populate = async data => {
+const populate = async (data) => {
   const container = document.querySelector(".container");
   container.classList.add("my-8");
 
@@ -56,12 +56,12 @@ const populate = async data => {
   console.log("results", results);
   // map the results array of objects with properties(name and url) to array of promises
   // note: inside an async function,when you return a value, it automatically gets wrapped in a promise
-  const pokemonDataPromises = results.map(async pokemon => {
+  const pokemonDataPromises = results.map(async (pokemon) => {
     try {
       const response = await fetch(pokemon.url);
       if (!response.ok) {
         throw new Error(
-          `Error fetching data from the Pokémon with the name ${pokemon.name}`
+          `Error fetching data from the Pokémon with the name ${pokemon.name}`,
         );
       }
       const data = await response.json();
@@ -76,7 +76,7 @@ const populate = async data => {
   const pokemonDataArray = await Promise.all(pokemonDataPromises);
   // filter out null pokemons inside the array
   const notNullPokemonDataArray = pokemonDataArray.filter(
-    pokemonData => pokemonData !== null
+    (pokemonData) => pokemonData !== null,
   );
 
   for (const pokemonDataJson of notNullPokemonDataArray) {
@@ -92,11 +92,11 @@ const populate = async data => {
 
     itemImage.setAttribute(
       "src",
-      pokemonDataJson.data.sprites.other.dream_world.front_default
+      pokemonDataJson.data.sprites.other.dream_world.front_default,
     );
 
     itemType.textContent = `Type: ${pokemonDataJson.data.types
-      .map(type => type.type.name)
+      .map((type) => type.type.name)
       .join(", ")}`;
 
     pokemonContainerItem.appendChild(itemHeading);
@@ -105,18 +105,18 @@ const populate = async data => {
     pokemonContainer.appendChild(pokemonContainerItem);
 
     // container item styling
-    pokemonContainerItem.classList.add("rounded-md", "p-4");
+    pokemonContainerItem.classList.add("rounded-md", "p-4", "bg-[#ffffff]");
+    pokemonContainerItem.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
 
-    pokemonContainerItem.addEventListener("mouseover", function(event) {
+    // pokemon container card hover effect
+    pokemonContainerItem.addEventListener("mouseover", function (event) {
       this.style.transform = "scale(1.05)";
+      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)";
+    });
+    pokemonContainerItem.addEventListener("mouseout", function (event) {
+      this.style.transform = "scale(1)";
       this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     });
-    pokemonContainerItem.addEventListener("mouseout", function(event) {
-      this.style.transform = "scale(1)";
-      this.style.boxShadow = "none";
-    });
-
-    pokemonContainerItem.style.backgroundColor = "#ffffff";
 
     // container item heading h2 styling
     itemHeading.classList.add(
@@ -125,7 +125,7 @@ const populate = async data => {
       "mb-2",
       "text-white",
       "bg-[#362717]",
-      "rounded-md"
+      "rounded-md",
     );
 
     // container item image styling
@@ -134,7 +134,7 @@ const populate = async data => {
       "h-[200px]",
       "block",
       "my-0",
-      "mx-auto"
+      "mx-auto",
     );
 
     // container item type styling
@@ -144,7 +144,7 @@ const populate = async data => {
       "mt-4",
       "border-t-4",
       "border-t-[#faf7f4]",
-      "text-xl"
+      "text-xl",
     );
   }
 };
@@ -159,7 +159,7 @@ footer.classList.add(
   "items-center",
   "text-center",
   "w-full",
-  "h-16"
+  "h-16",
 );
 
 const footerParagraph = document.createElement("p");
@@ -169,7 +169,7 @@ footerParagraph.classList.add(
   "bg-[#362717]",
   "text-xl",
   "w-full",
-  "p-4"
+  "p-4",
 );
 footer.appendChild(footerParagraph);
 
