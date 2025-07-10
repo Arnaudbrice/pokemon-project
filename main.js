@@ -96,9 +96,37 @@ const populate = async (data) => {
       .map((type) => type.type.name)
       .join(", ")}`;
 
+
+    
+  //function button Fangen :
+      function catchPokemon (pokemon){
+        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        let existPok = favorites.some(p => p.name === pokemon.name);
+        if (!existPok){
+          favorites.push(pokemon);
+          localStorage.setItem("favorites" , JSON.stringify(favorites));
+            
+          alert(pokemon.name + 'wurde gefangen zum Favorite');
+      
+        }
+        else{
+          alert(pokemon.name + 'ist schon gefangen in Favorite');
+        }
+     
+      }
+      catchButton.addEventListener("click", () => {
+        const pokemon ={
+          name: pokemonDataJson.name,
+          image:  pokemonDataJson.data.sprites.other.dream_world.front_default,
+          types: pokemonDataJson.data.types.map((type) => type.type.name)
+        };
+        catchPokemon(pokemon);
+      });
+
+
     // fangen Button zu speichern die Pokemon zum Favoriten :
     const catchButton = document.createElement("button");
-    catchButton.textContent = "Fangen";
+    catchButton.textContent = "Catch";
     catchButton.classList.add(
       "m-5",
       "bg-red-800",
@@ -111,6 +139,7 @@ const populate = async (data) => {
       "transition",
       "duration-300"
     );
+
 
     pokemonContainerItem.appendChild(itemHeading);
     pokemonContainerItem.appendChild(itemImage);
