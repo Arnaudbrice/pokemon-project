@@ -1,36 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pok�mon Cards</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Afacad:ital,wght@0,400..700;1,400..700&family=Lexend:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon Cards</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body>
-    
-    <div class="container mx-auto p-4">
-      <h1 class="text-3xl font-bold mb-4">Pokémon Cards</h1>
-      <div
-        id="pokemon-container"
-        class="grid
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Afacad:ital,wght@0,400..700;1,400..700&family=Lexend:wght@100..900&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+  <header class="w-full text-center bg-[#ffcb00] sticky top-0 z-100 ">
+    <h1 class="text-3xl font-bold py-8">Pokémon Cards</h1>
+    <nav id="navbar" class="bg-[hsl(31,40%,15%)] text-white flex justify-center items-center py-2 gap-8">
+      <ul id="nav-list" class="flex gap-8 text-lg">
+        <li class=" hover:underline"><a href="./index.html">Home</a></li>
+        <li class=" hover:underline"><a href="./pokedex.html">Pokédex</a></li>
+      </ul>
+      <div id="search-container" class="text-white relative">
+        <div class="flex items-center border-1 rounded-lg bg-[hsl(31,40%,30%)] ">
+          <img src="img/icons8-suche-16.png" alt="search" class="w-4 h-4 bg-cover mx-4">
+          <input type="text" id="search-input" autocomplete="off" placeholder="Enter ID or name"
+            class="border-none focus:outline-none focus:ring-0">
+          <button id="search-btn" class=" hover:cursor-pointer hover:bg-slate-400 mx-4" type="submit">search</button>
+        </div>
+        <div id="search-result"
+          class="border-1 border-[#362717] text-[#362717] text-lg p-2 bg-white absolute left-0 top-full w-full z-500 hidden">
+
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container mx-auto p-4">
+    <div id="pokemon-container" class="grid
         grid-cols-[repeat(auto-fill,minmax(250px,1fr))]
         gap-4
-         "
-      >
-        <!-- Pok�mon cards will be populated here -->
-      </div>
+         ">
+      <!-- Pokémon cards will be populated here -->
     </div>
+  </div>
 
-    <script src="main.js"></script>
-  </body>
+  <script src="main.js"></script>
+</body>
+
 </html>
