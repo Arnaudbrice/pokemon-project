@@ -122,7 +122,7 @@ const populate = async (data) => {
        "duration-300",
       );
     
-  //function button Fangen :
+  //function button add to favorite (pokodex):
       function catchPokemon (pokemon){
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         let existPok = favorites.some(p => p.name === pokemon.name);
