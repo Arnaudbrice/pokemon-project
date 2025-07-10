@@ -179,7 +179,8 @@ var populate = function populate(data) {
 
             itemImage.classList.add("max-w-[200px]", "h-[200px]", "block", "my-0", "mx-auto"); // container item type styling
 
-            itemType.classList.add("text-[#53412D]", "py-4", "mt-4", "border-t-4", "border-t-[#faf7f4]", "text-xl");
+            itemType.classList.add("text-[#53412D]", "py-4", "mt-4", "border-t-4", "border-t-[#53412D]/20", //border top with opacity 0.2
+            "text-xl");
           }
 
           _context3.next = 22;
