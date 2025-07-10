@@ -98,7 +98,7 @@ const populate = async (data) => {
 
 
     
-  //function button Fangen :
+  //function button add to favorite (pokodex):
       function catchPokemon (pokemon){
         let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
         let existPok = favorites.some(p => p.name === pokemon.name);
@@ -126,7 +126,7 @@ const populate = async (data) => {
 
     // fangen Button zu speichern die Pokemon zum Favoriten :
     const catchButton = document.createElement("button");
-    catchButton.textContent = "Catch";
+    catchButton.textContent = "CATCH";
     catchButton.classList.add(
       "m-5",
       "bg-red-800",
