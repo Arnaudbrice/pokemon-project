@@ -78,6 +78,7 @@ const populate = async (data) => {
   for (const pokemonDataJson of allPokemonData) {
     // Note: pokemonDataJson is an object with properties name (name of the pokemon) and data (the fetched data from this pokemon)
     // console.log("pokemonDataJson", pokemonDataJson);
+    // fangen btn
 
     const pokemonContainerItem = document.createElement("div");
     const itemHeading = document.createElement("h2");
@@ -95,24 +96,41 @@ const populate = async (data) => {
       .map((type) => type.type.name)
       .join(", ")}`;
 
+    // fangen Button zu speichern die Pokemon zum Favoriten :
+    const catchButton = document.createElement("button");
+    catchButton.textContent = "Fangen";
+    catchButton.classList.add(
+      "m-5",
+      "bg-red-800",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-5",
+      "rounded",
+      "hover:bg-red-400",
+      "transition",
+      "duration-300"
+    );
+
     pokemonContainerItem.appendChild(itemHeading);
     pokemonContainerItem.appendChild(itemImage);
     pokemonContainerItem.appendChild(itemType);
+    pokemonContainerItem.appendChild(catchButton);
     pokemonContainer.appendChild(pokemonContainerItem);
 
     // container item styling
-    pokemonContainerItem.classList.add("rounded-md", "p-4");
+    pokemonContainerItem.classList.add("rounded-md", "p-4", "bg-[#ffffff]");
+    pokemonContainerItem.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
 
+    // pokemon container card hover effect
     pokemonContainerItem.addEventListener("mouseover", function (event) {
       this.style.transform = "scale(1.05)";
-      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)";
     });
     pokemonContainerItem.addEventListener("mouseout", function (event) {
       this.style.transform = "scale(1)";
-      this.style.boxShadow = "none";
+      this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     });
-
-    pokemonContainerItem.style.backgroundColor = "#ffffff";
 
     // container item heading h2 styling
     itemHeading.classList.add(
@@ -139,7 +157,7 @@ const populate = async (data) => {
       "py-4",
       "mt-4",
       "border-t-4",
-      "border-t-[#faf7f4]",
+      "border-t-[#53412D]/20", //border top with opacity 0.2
       "text-xl"
     );
   }
