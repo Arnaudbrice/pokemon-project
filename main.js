@@ -8,11 +8,6 @@ document.body.style.backgroundImage =
 document.body.style.fontFamily = "Afacad Flux, Afacad, sans-serif";
 document.body.style.lineHeight = "1.5";
 
-// heading styling
-const heading = document.querySelector("h1");
-heading.style.textAlign = "center";
-heading.classList.add("py-12");
-
 /**
  * Fetch data from the Pokémon API(https://pokeapi.co/api/v2/pokemon)
  * and populate the DOM with the data
@@ -20,18 +15,20 @@ heading.classList.add("py-12");
  * and rejects if there is an error fetching the data
  *
  */
+
 const fetchData = async () => {
   try {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
     if (!response.ok) {
       throw new Error(
-        `Error fetching data from the Pokémon API with status ${response.status}`,
+        `Error fetching data from the Pokémon API with status ${response.status}`
       );
     }
 
     const data = await response.json();
 
-    populate(data);
+    const allPokemonDataArray = await populate(data);
+    searchPokemon(allPokemonDataArray);
   } catch (error) {
     console.error(error);
   }
@@ -53,7 +50,7 @@ const populate = async (data) => {
   const results = data.results;
 
   //arrays of pokemon objects with name property and url property for fetching information about this pokemon
-  console.log("results", results);
+  // console.log("results", results);
   // map the results array of objects with properties(name and url) to array of promises
   // note: inside an async function,when you return a value, it automatically gets wrapped in a promise
   const pokemonDataPromises = results.map(async (pokemon) => {
@@ -61,7 +58,7 @@ const populate = async (data) => {
       const response = await fetch(pokemon.url);
       if (!response.ok) {
         throw new Error(
-          `Error fetching data from the Pokémon with the name ${pokemon.name}`,
+          `Error fetching data from the Pokémon with the name ${pokemon.name}`
         );
       }
       const data = await response.json();
@@ -75,52 +72,31 @@ const populate = async (data) => {
   //  Promise.all() waits for ALL promises in the array to resolve, then returns an array with all resolved objects{name,data}
   const pokemonDataArray = await Promise.all(pokemonDataPromises);
   // filter out null pokemons inside the array
-  const notNullPokemonDataArray = pokemonDataArray.filter(
-    (pokemonData) => pokemonData !== null,
+  allPokemonData = pokemonDataArray.filter(
+    (pokemonData) => pokemonData !== null
   );
-
-  for (const pokemonDataJson of notNullPokemonDataArray) {
+  for (const pokemonDataJson of allPokemonData) {
     // Note: pokemonDataJson is an object with properties name (name of the pokemon) and data (the fetched data from this pokemon)
     // console.log("pokemonDataJson", pokemonDataJson);
-   // fangen btn
-  
-
+    // fangen btn
 
     const pokemonContainerItem = document.createElement("div");
     const itemHeading = document.createElement("h2");
     const itemImage = document.createElement("img");
     const itemType = document.createElement("p");
-   
-
-  
- 
 
     itemHeading.textContent = pokemonDataJson.name;
 
     itemImage.setAttribute(
       "src",
-      pokemonDataJson.data.sprites.other.dream_world.front_default,
+      pokemonDataJson.data.sprites.other.dream_world.front_default
     );
 
     itemType.textContent = `Type: ${pokemonDataJson.data.types
       .map((type) => type.type.name)
       .join(", ")}`;
 
-// fangen Button zu speichern die Pokemon zum Favoriten :
-      const catchButton = document.createElement("button");
-      catchButton.textContent = "Catch";
-      catchButton.classList.add(
-       "m-5",
-       "bg-red-800",
-       "text-white",
-       "font-bold",
-       "py-2",
-       "px-5",
-       "rounded",
-       "hover:bg-red-400",
-       "transition",
-       "duration-300",
-      );
+
     
   //function button Fangen :
       function catchPokemon (pokemon){
@@ -148,19 +124,29 @@ const populate = async (data) => {
       });
 
 
+    // fangen Button zu speichern die Pokemon zum Favoriten :
+    const catchButton = document.createElement("button");
+    catchButton.textContent = "Catch";
+    catchButton.classList.add(
+      "m-5",
+      "bg-red-800",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-5",
+      "rounded",
+      "hover:bg-red-400",
+      "transition",
+      "duration-300"
+    );
 
-      
-     
-
-
-    
 
     pokemonContainerItem.appendChild(itemHeading);
     pokemonContainerItem.appendChild(itemImage);
     pokemonContainerItem.appendChild(itemType);
     pokemonContainerItem.appendChild(catchButton);
     pokemonContainer.appendChild(pokemonContainerItem);
-   
+
     // container item styling
     pokemonContainerItem.classList.add("rounded-md", "p-4", "bg-[#ffffff]");
     pokemonContainerItem.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
@@ -174,8 +160,6 @@ const populate = async (data) => {
       this.style.transform = "scale(1)";
       this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     });
-     
-
 
     // container item heading h2 styling
     itemHeading.classList.add(
@@ -184,7 +168,7 @@ const populate = async (data) => {
       "mb-2",
       "text-white",
       "bg-[#362717]",
-      "rounded-md",
+      "rounded-md"
     );
 
     // container item image styling
@@ -193,7 +177,7 @@ const populate = async (data) => {
       "h-[200px]",
       "block",
       "my-0",
-      "mx-auto",
+      "mx-auto"
     );
 
     // container item type styling
@@ -203,9 +187,11 @@ const populate = async (data) => {
       "mt-4",
       "border-t-4",
       "border-t-[#53412D]/20", //border top with opacity 0.2
-      "text-xl",
+      "text-xl"
     );
   }
+
+  return allPokemonData;
 };
 
 // footer styling
@@ -218,7 +204,7 @@ footer.classList.add(
   "items-center",
   "text-center",
   "w-full",
-  "h-16",
+  "h-16"
 );
 
 const footerParagraph = document.createElement("p");
@@ -228,8 +214,68 @@ footerParagraph.classList.add(
   "bg-[#362717]",
   "text-xl",
   "w-full",
-  "p-4",
+  "p-4"
 );
 footer.appendChild(footerParagraph);
 
 document.body.appendChild(footer);
+
+const searchPokemon = (allPokemon) => {
+  // --------------------------------------- search function ---------------------------------------------------------------------------
+  const searchInput = document.getElementById("search-input");
+  const searchBtn = document.getElementById("search-btn");
+  const searchResult = document.getElementById("search-result");
+
+  // --- creat a cancel btn for search ---
+  const searchCancelBtn = document.createElement("button");
+  searchCancelBtn.textContent = "cancel";
+  searchCancelBtn.classList.add(
+    "cancel-btn",
+    "border-1",
+    "border-[#362717]",
+    "my-2",
+    "rounded-md",
+    "shadow-md",
+    "hover:cursor-pointer"
+  );
+
+  // --- click of search --
+  searchBtn.addEventListener("click", () => {
+    searchResult.classList.remove("hidden");
+    const searchContent = searchInput.value.trim().toLowerCase();
+
+    // -- found the Pokemon and display --
+    const foundPokemon = allPokemon.find(
+      (pokemon) =>
+        pokemon.data.name === searchContent ||
+        pokemon.data.id.toString() === searchContent
+    );
+
+    if (!foundPokemon) {
+      searchResult.textContent = "please enter a name od ID!";
+      searchResult.classList.add("flex", "flex-col");
+      searchResult.appendChild(searchCancelBtn);
+      return;
+    }
+    // ---------------- display search result ---------------
+    const foundPokemonType = foundPokemon.data.types
+      .map((type) => type.type.name)
+      .join(", ");
+    const temp = `<ul class="result-container flex flex-col font-bold items-center">
+    <li> ID : ${foundPokemon.data.id}</li>
+    <li> name: ${foundPokemon.name}</li>
+    <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" </li>
+    <li>Type: ${foundPokemonType} </li>
+    </ul>`;
+    searchResult.innerHTML = temp;
+    searchResult.classList.add("flex", "flex-col", "justify-between");
+    searchCancelBtn.classList.add("my-4");
+    searchResult.appendChild(searchCancelBtn);
+  });
+  // -- cancel the search --
+  searchCancelBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchResult.textContent = "";
+    searchResult.classList.add("hidden");
+  });
+};
