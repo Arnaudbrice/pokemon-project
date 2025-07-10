@@ -82,11 +82,18 @@ const populate = async (data) => {
   for (const pokemonDataJson of notNullPokemonDataArray) {
     // Note: pokemonDataJson is an object with properties name (name of the pokemon) and data (the fetched data from this pokemon)
     // console.log("pokemonDataJson", pokemonDataJson);
+   // fangen btn
+  
+
 
     const pokemonContainerItem = document.createElement("div");
     const itemHeading = document.createElement("h2");
     const itemImage = document.createElement("img");
     const itemType = document.createElement("p");
+   
+
+  
+ 
 
     itemHeading.textContent = pokemonDataJson.name;
 
@@ -99,11 +106,32 @@ const populate = async (data) => {
       .map((type) => type.type.name)
       .join(", ")}`;
 
+      
+     // fangen Button zu speichern die Pokemon zum Favoriten :
+      const catchButton = document.createElement("button");
+      catchButton.textContent = "Fangen";
+      catchButton.classList.add(
+       "m-5",
+       "bg-red-800",
+       "text-white",
+       "font-bold",
+       "py-2",
+       "px-5",
+       "rounded",
+       "hover:bg-red-400",
+       "transition",
+       "duration-300",
+      );
+
+
+    
+
     pokemonContainerItem.appendChild(itemHeading);
     pokemonContainerItem.appendChild(itemImage);
     pokemonContainerItem.appendChild(itemType);
+    pokemonContainerItem.appendChild(catchButton);
     pokemonContainer.appendChild(pokemonContainerItem);
-
+   
     // container item styling
     pokemonContainerItem.classList.add("rounded-md", "p-4", "bg-[#ffffff]");
     pokemonContainerItem.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
@@ -117,6 +145,8 @@ const populate = async (data) => {
       this.style.transform = "scale(1)";
       this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     });
+     
+
 
     // container item heading h2 styling
     itemHeading.classList.add(
