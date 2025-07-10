@@ -8,11 +8,6 @@ document.body.style.backgroundImage =
 document.body.style.fontFamily = "Afacad Flux, Afacad, sans-serif";
 document.body.style.lineHeight = "1.5";
 
-// heading styling
-const heading = document.querySelector("h1");
-heading.style.textAlign = "center";
-heading.classList.add("py-12");
-
 /**
  * Fetch data from the Pokémon API(https://pokeapi.co/api/v2/pokemon)
  * and populate the DOM with the data
@@ -20,6 +15,7 @@ heading.classList.add("py-12");
  * and rejects if there is an error fetching the data
  *
  */
+
 const fetchData = async () => {
   try {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=50");
@@ -31,7 +27,8 @@ const fetchData = async () => {
 
     const data = await response.json();
 
-    populate(data);
+    const allPokemonDataArray = await populate(data);
+    searchPokemon(allPokemonDataArray);
   } catch (error) {
     console.error(error);
   }
@@ -39,7 +36,7 @@ const fetchData = async () => {
 
 fetchData();
 
-const populate = async data => {
+const populate = async (data) => {
   const container = document.querySelector(".container");
   container.classList.add("my-8");
 
@@ -53,10 +50,10 @@ const populate = async data => {
   const results = data.results;
 
   //arrays of pokemon objects with name property and url property for fetching information about this pokemon
-  console.log("results", results);
+  // console.log("results", results);
   // map the results array of objects with properties(name and url) to array of promises
   // note: inside an async function,when you return a value, it automatically gets wrapped in a promise
-  const pokemonDataPromises = results.map(async pokemon => {
+  const pokemonDataPromises = results.map(async (pokemon) => {
     try {
       const response = await fetch(pokemon.url);
       if (!response.ok) {
@@ -75,11 +72,10 @@ const populate = async data => {
   //  Promise.all() waits for ALL promises in the array to resolve, then returns an array with all resolved objects{name,data}
   const pokemonDataArray = await Promise.all(pokemonDataPromises);
   // filter out null pokemons inside the array
-  const notNullPokemonDataArray = pokemonDataArray.filter(
-    pokemonData => pokemonData !== null
+  allPokemonData = pokemonDataArray.filter(
+    (pokemonData) => pokemonData !== null
   );
-
-  for (const pokemonDataJson of notNullPokemonDataArray) {
+  for (const pokemonDataJson of allPokemonData) {
     // Note: pokemonDataJson is an object with properties name (name of the pokemon) and data (the fetched data from this pokemon)
     // console.log("pokemonDataJson", pokemonDataJson);
 
@@ -96,7 +92,7 @@ const populate = async data => {
     );
 
     itemType.textContent = `Type: ${pokemonDataJson.data.types
-      .map(type => type.type.name)
+      .map((type) => type.type.name)
       .join(", ")}`;
 
     pokemonContainerItem.appendChild(itemHeading);
@@ -107,11 +103,11 @@ const populate = async data => {
     // container item styling
     pokemonContainerItem.classList.add("rounded-md", "p-4");
 
-    pokemonContainerItem.addEventListener("mouseover", function(event) {
+    pokemonContainerItem.addEventListener("mouseover", function (event) {
       this.style.transform = "scale(1.05)";
       this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     });
-    pokemonContainerItem.addEventListener("mouseout", function(event) {
+    pokemonContainerItem.addEventListener("mouseout", function (event) {
       this.style.transform = "scale(1)";
       this.style.boxShadow = "none";
     });
@@ -147,6 +143,8 @@ const populate = async data => {
       "text-xl"
     );
   }
+
+  return allPokemonData;
 };
 
 // footer styling
@@ -174,3 +172,56 @@ footerParagraph.classList.add(
 footer.appendChild(footerParagraph);
 
 document.body.appendChild(footer);
+
+const searchPokemon = (allPokemon) => {
+  // --------------------------------------- search function ---------------------------------------------------------------------------
+  const searchInput = document.getElementById("search-input");
+  const searchBtn = document.getElementById("search-btn");
+  const searchResult = document.getElementById("search-result");
+
+  // --- creat a cancel btn for search ---
+  const searchCancelBtn = document.createElement("button");
+  searchCancelBtn.textContent = "cancel";
+  searchCancelBtn.classList.add(
+    "cancel-btn",
+    "border-1",
+    "px-2",
+    "hover:cursor-pointer"
+  );
+
+  // --- click of search --
+  searchBtn.addEventListener("click", () => {
+    searchResult.classList.remove("hidden");
+    const searchContent = searchInput.value.trim().toLowerCase();
+
+    // --------- found the Pokemon and display
+    const foundPokemon = allPokemon.find(
+      (pokemon) =>
+        pokemon.data.name === searchContent ||
+        pokemon.data.id.toString() === searchContent
+    );
+
+    if (!foundPokemon) {
+      searchResult.textContent = "please enter a name od ID!";
+      searchResult.classList.add("flex", "justify-between");
+      searchResult.appendChild(searchCancelBtn);
+      return;
+    }
+    // ---------------- display search result ---------------
+    const temp = `<ul class="result-container flex flex-col font-bold">
+    <li> ID : ${foundPokemon.data.id}</li>
+    <li> name: ${foundPokemon.name}</li>
+    <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" class=" bg-cover"></li>
+    </ul>`;
+    searchResult.innerHTML = temp;
+    searchResult.classList.add("flex", "flex-col", "justify-between");
+    searchCancelBtn.classList.add("my-2");
+    searchResult.appendChild(searchCancelBtn);
+  });
+  // -- cancel the search --
+  searchCancelBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchResult.textContent = "";
+    searchResult.classList.add("hidden");
+  });
+};
