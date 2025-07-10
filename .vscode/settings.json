@@ -5,5 +5,6 @@
   "editor.fontSize": 19,
   "editor.lineHeight": 1.5,
   "workbench.fontAliasing": "antialiased",
-  "compile-hero.disable-compile-files-on-did-save-code": false
+  "compile-hero.disable-compile-files-on-did-save-code": false,
+  "local-history.browser.descending": false
 }
