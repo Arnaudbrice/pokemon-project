@@ -96,9 +96,6 @@ const populate = async (data) => {
       .map((type) => type.type.name)
       .join(", ")}`;
 
-
-
-      
     // fangen Button zu speichern die Pokemon zum Favoriten :
     const catchButton = document.createElement("button");
     catchButton.textContent = "CATCH";
@@ -114,34 +111,28 @@ const populate = async (data) => {
       "transition",
       "duration-300"
     );
-    
-  //function button add to favorite (pokodex):
-      function catchPokemon (pokemon){
-        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-        let existPok = favorites.some(p => p.name === pokemon.name);
-        if (!existPok){
-          favorites.push(pokemon);
-          localStorage.setItem("favorites" , JSON.stringify(favorites));
-            
-          alert(pokemon.name + 'wurde gefangen zum Favorite');
-      
-        }
-        else{
-          alert(pokemon.name + 'ist schon gefangen in Favorite');
-        }
-     
+
+    //function button add to favorite (pokodex):
+    function catchPokemon(pokemon) {
+      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      let existPok = favorites.some((p) => p.name === pokemon.name);
+      if (!existPok) {
+        favorites.push(pokemon);
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+
+        alert(pokemon.name + "wurde gefangen zum Favorite");
+      } else {
+        alert(pokemon.name + "ist schon gefangen in Favorite");
       }
-      catchButton.addEventListener("click", () => {
-        const pokemon ={
-          name: pokemonDataJson.name,
-          image:  pokemonDataJson.data.sprites.other.dream_world.front_default,
-          types: pokemonDataJson.data.types.map((type) => type.type.name)
-        };
-        catchPokemon(pokemon);
-      });
-
-
-
+    }
+    catchButton.addEventListener("click", () => {
+      const pokemon = {
+        name: pokemonDataJson.name,
+        image: pokemonDataJson.data.sprites.other.dream_world.front_default,
+        types: pokemonDataJson.data.types.map((type) => type.type.name),
+      };
+      catchPokemon(pokemon);
+    });
 
     pokemonContainerItem.appendChild(itemHeading);
     pokemonContainerItem.appendChild(itemImage);
@@ -233,12 +224,14 @@ const searchPokemon = (allPokemon) => {
   searchCancelBtn.textContent = "cancel";
   searchCancelBtn.classList.add(
     "cancel-btn",
+    "text-white",
     "border-1",
     "border-[#362717]",
     "my-2",
     "rounded-md",
-    "shadow-md",
-    "hover:cursor-pointer"
+    "bg-[hsl(31,40%,30%)]",
+    "hover:cursor-pointer",
+    "hover:bg-[hsl(31,40%,40%)]"
   );
 
   // --- click of search --
@@ -259,17 +252,29 @@ const searchPokemon = (allPokemon) => {
       searchResult.appendChild(searchCancelBtn);
       return;
     }
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    const caughtIcon = document.createElement("img");
+    caughtIcon.src = "./img/32px-Poké_Ball_icon.svg.png";
+    caughtIcon.classList.add("h-8", "w-8", "hidden");
+    if (favorites.some((pokemon) => pokemon.name === foundPokemon.name)) {
+      caughtIcon.classList.remove("hidden");
+    }
+
     // ---------------- display search result ---------------
     const foundPokemonType = foundPokemon.data.types
       .map((type) => type.type.name)
       .join(", ");
     const temp = `<ul class="result-container flex flex-col font-bold items-center">
-    <li> ID : ${foundPokemon.data.id}</li>
+    <li id = "ID-line" class = "flex justify-center gap-4"> ID : ${foundPokemon.data.id} </li>
     <li> name: ${foundPokemon.name}</li>
     <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" </li>
     <li>Type: ${foundPokemonType} </li>
     </ul>`;
     searchResult.innerHTML = temp;
+
+    const idLine = document.getElementById("ID-line");
+    idLine.appendChild(caughtIcon);
+
     searchResult.classList.add("flex", "flex-col", "justify-between");
     searchCancelBtn.classList.add("my-4");
     searchResult.appendChild(searchCancelBtn);
