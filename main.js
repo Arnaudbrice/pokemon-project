@@ -97,6 +97,23 @@ const populate = async (data) => {
       .join(", ")}`;
 
 
+
+      
+    // fangen Button zu speichern die Pokemon zum Favoriten :
+    const catchButton = document.createElement("button");
+    catchButton.textContent = "CATCH";
+    catchButton.classList.add(
+      "m-5",
+      "bg-red-800",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-5",
+      "rounded",
+      "hover:bg-red-400",
+      "transition",
+      "duration-300"
+    );
     
   //function button add to favorite (pokodex):
       function catchPokemon (pokemon){
@@ -124,21 +141,6 @@ const populate = async (data) => {
       });
 
 
-    // fangen Button zu speichern die Pokemon zum Favoriten :
-    const catchButton = document.createElement("button");
-    catchButton.textContent = "CATCH";
-    catchButton.classList.add(
-      "m-5",
-      "bg-red-800",
-      "text-white",
-      "font-bold",
-      "py-2",
-      "px-5",
-      "rounded",
-      "hover:bg-red-400",
-      "transition",
-      "duration-300"
-    );
 
 
     pokemonContainerItem.appendChild(itemHeading);
