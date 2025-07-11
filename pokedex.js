@@ -114,3 +114,171 @@ const searchPokemon = (allPokemon) => {
     searchResult.classList.add("hidden");
   });
 };
+/*// ---------------- display Pokemon---------------
+const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+console.log(favorites);
+favorites.forEach((pokemon) => {
+  fetch(pokemon.url)
+    .then((response) => response.json())
+    .then((data) => {
+      const card = document.createElement("div");
+      card.className = "bg-white p-4 rounded shadow";
+      card.innerHTML = `
+  <img src="${data.sprites.front_default}" alt="${data.name}" class="mx-auto" />
+  <h2 class="text-center mt-2">${data.name}</h2>
+`;
+      document.getElementById("pokedexGrid").appendChild(card);
+    });
+});*/
+
+/*---display Pokemon V2 ----
+const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+favorites.forEach((pokemon) => {
+  const card = document.createElement("div");
+  card.className = "bg-white p-4 rounded shadow";
+  card.innerHTML = ` <img src="${pokemon.image}" alt="${
+    pokemon.name
+  }" class="mx-auto" /> <h2 class="text-center mt-2">${
+    pokemon.name
+  }</h2> <p class="text-center">${pokemon.types.join(", ")}</p> `;
+  document.getElementById("pokedexGrid").appendChild(card);
+});*/
+//Release Button
+function createReleaseButton(pokemon, cardElement) {
+  const releaseButton = document.createElement("button");
+  releaseButton.textContent = "RELEASE";
+  releaseButton.classList.add(
+    "m-5",
+    "mx-auto",
+    "block",
+    "bg-red-800",
+    "text-white",
+    "font-bold",
+    "py-2",
+    "px-5",
+    "rounded",
+    "hover:bg-red-400",
+    "transition",
+    "duration-300"
+  );
+
+  releaseButton.addEventListener("click", () => {
+    let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    favorites = favorites.filter((p) => p.name !== pokemon.name);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+
+    // Element aus dem DOM entfernen
+    cardElement.remove();
+
+    alert(`${pokemon.name} wurde aus den Favoriten entfernt.`);
+  });
+
+  return releaseButton;
+}
+//Notiz-Feature
+function createNoteButton(pokemon, cardElement) {
+  const noteButton = document.createElement("button");
+  noteButton.textContent = "NOTIZ";
+  noteButton.classList.add(
+    "m-1",
+    "mx-auto",
+    "block",
+    "bg-yellow-600",
+    "text-white",
+    "font-bold",
+    "py-1",
+    "px-3",
+    "rounded",
+    "hover:bg-yellow-400",
+    "transition",
+    "duration-300"
+  );
+
+  // Notizfeld unter der Karte anzeigen
+  const noteDisplay = document.createElement("p");
+  noteDisplay.classList.add("mt-2", "text-sm", "text-gray-700");
+  noteDisplay.style.whiteSpace = "pre-wrap";
+
+  // Lade gespeicherte Notiz
+  const notes = JSON.parse(localStorage.getItem("pokemonNotes")) || {};
+  if (notes[pokemon.name]) {
+    noteDisplay.textContent = "📝 " + notes[pokemon.name];
+  }
+
+  noteButton.addEventListener("click", () => {
+    const userNote = prompt(
+      `Notiz zu ${pokemon.name}:`,
+      notes[pokemon.name] || ""
+    );
+    if (userNote !== null) {
+      notes[pokemon.name] = userNote.trim();
+      localStorage.setItem("pokemonNotes", JSON.stringify(notes));
+      noteDisplay.textContent = "📝 " + userNote.trim();
+    }
+  });
+
+  cardElement.appendChild(noteButton);
+  cardElement.appendChild(noteDisplay);
+}
+// --- display Pokémon V3 ---------------
+const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+const grid = document.getElementById("pokedexGrid");
+
+favorites.forEach((pokemon) => {
+  // ► Karte
+  const card = document.createElement("div");
+  card.className =
+    "rounded-md p-4 bg-white transition duration-200 " +
+    "shadow-[0_4px_8px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] " +
+    "hover:scale-105";
+
+  // ► Name-Balken
+  const name = document.createElement("h2");
+  name.textContent = pokemon.name;
+  name.className =
+    "font-bold text-2xl mb-2 text-white bg-[#362717] rounded-md text-center";
+
+  // ► Bild
+  const img = document.createElement("img");
+  img.src = pokemon.image;
+  img.alt = pokemon.name;
+  img.className = "max-w-[200px] h-[200px] block my-0 mx-auto";
+
+  // ► Typenzeile
+  const types = document.createElement("p");
+  types.textContent = `Type: ${pokemon.types.join(", ")}`;
+  types.className =
+    "text-[#53412D] py-4 mt-4 border-t-4 border-t-[#53412D]/20 text-xl text-center";
+
+  // ► Karte zusammenbauen
+
+  const releaseButton = createReleaseButton(pokemon, card); //Release Button
+  createNoteButton(pokemon, card);
+  card.append(name, img, types, releaseButton);
+  grid.appendChild(card);
+});
+// footer styling
+const footer = document.createElement("footer");
+
+footer.classList.add(
+  "flex",
+  "flex-col",
+  "justify-center",
+  "items-center",
+  "text-center",
+  "w-full",
+  "h-16"
+);
+
+const footerParagraph = document.createElement("p");
+footerParagraph.textContent = `Made with ❤️ by Arnaud,Yan, Marvin, Ahmed ©${new Date().getFullYear()} All rights reserved`;
+footerParagraph.classList.add(
+  "text-white",
+  "bg-[#362717]",
+  "text-xl",
+  "w-full",
+  "p-4"
+);
+footer.appendChild(footerParagraph);
+
+document.body.appendChild(footer);
