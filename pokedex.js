@@ -75,9 +75,11 @@ const searchPokemon = (allPokemon) => {
     "hover:cursor-pointer",
     "hover:bg-[hsl(31,40%,40%)]"
   );
+
   // --- click of search --
   searchBtn.addEventListener("click", () => {
     searchResult.classList.remove("hidden");
+    searchResult.textContent = "";
     const searchContent = searchInput.value.trim().toLowerCase();
 
     // -- found the Pokemon and display --
@@ -89,7 +91,12 @@ const searchPokemon = (allPokemon) => {
 
     if (!foundPokemon) {
       searchResult.textContent = "please enter a name od ID!";
-      searchResult.classList.add("flex", "flex-col");
+      searchResult.classList.add(
+        "flex",
+        "flex-col",
+        "text-red-400",
+        "font-blod"
+      );
       searchResult.appendChild(searchCancelBtn);
       return;
     }
@@ -105,16 +112,36 @@ const searchPokemon = (allPokemon) => {
     const foundPokemonType = foundPokemon.data.types
       .map((type) => type.type.name)
       .join(", ");
-    const temp = `<ul class="result-container flex flex-col font-bold items-center">
-    <li id = "ID-line" class = "flex justify-center gap-4"> ID : ${foundPokemon.data.id} </li>
-    <li> name: ${foundPokemon.name}</li>
-    <li><img src="${foundPokemon.data.sprites.other.dream_world.front_default}" alt="${foundPokemon.name}" </li>
-    <li>Type: ${foundPokemonType} </li>
-    </ul>`;
-    searchResult.innerHTML = temp;
+    // ► Karte
+    const card = document.createElement("div");
+    card.className =
+      "rounded-md p-4 bg-white transition duration-200 " +
+      "shadow-[0_4px_8px_rgba(0,0,0,0.2)]";
 
-    const idLine = document.getElementById("ID-line");
-    idLine.appendChild(caughtIcon);
+    // ► Name-Balken
+    const name = document.createElement("h2");
+    name.textContent = `ID: ${foundPokemon.data.id} | ${foundPokemon.name}`;
+    name.className =
+      "font-bold text-2xl mb-2 text-white bg-[#362717] rounded-md text-center flex justify-around ";
+
+    // ► Bild
+    const img = document.createElement("img");
+    img.src = foundPokemon.data.sprites.other.dream_world.front_default;
+    img.alt = foundPokemon.name;
+    img.className = "max-w-[200px] h-[200px] block my-0 mx-auto";
+
+    // ► Typenzeile
+    const types = document.createElement("p");
+    types.textContent = `Type: ${foundPokemonType}`;
+    types.className = "text-[#53412D] py-4 mt-4  text-xl text-center";
+
+    // ► Karte zusammenbauen
+
+    // const idLine = document.getElementById("ID-line");
+    name.append(caughtIcon);
+    card.append(name, img, types);
+
+    searchResult.appendChild(card);
 
     searchResult.classList.add("flex", "flex-col", "justify-between");
     searchCancelBtn.classList.add("my-4");
@@ -127,6 +154,7 @@ const searchPokemon = (allPokemon) => {
     searchResult.classList.add("hidden");
   });
 };
+
 /*// ---------------- display Pokemon---------------
 const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 console.log(favorites);
