@@ -50,7 +50,7 @@ const populate = async (data) => {
   //  Promise.all() waits for ALL promises in the array to resolve, then returns an array with all resolved objects{name,data}
   const pokemonDataArray = await Promise.all(pokemonDataPromises);
   // filter out null pokemons inside the array
-  allPokemonData = pokemonDataArray.filter(
+  const allPokemonData = pokemonDataArray.filter(
     (pokemonData) => pokemonData !== null
   );
   return allPokemonData;
