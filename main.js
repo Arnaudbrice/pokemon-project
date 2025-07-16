@@ -248,7 +248,7 @@ const searchPokemon = (allPokemon) => {
     );
 
     if (!foundPokemon) {
-      searchResult.textContent = "please enter a name od ID!";
+      searchResult.textContent = "please enter a name or ID!";
       searchResult.classList.add(
         "flex",
         "flex-col",
