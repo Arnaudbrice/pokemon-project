@@ -155,35 +155,6 @@ const searchPokemon = (allPokemon) => {
   });
 };
 
-/*// ---------------- display Pokemon---------------
-const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-console.log(favorites);
-favorites.forEach((pokemon) => {
-  fetch(pokemon.url)
-    .then((response) => response.json())
-    .then((data) => {
-      const card = document.createElement("div");
-      card.className = "bg-white p-4 rounded shadow";
-      card.innerHTML = `
-  <img src="${data.sprites.front_default}" alt="${data.name}" class="mx-auto" />
-  <h2 class="text-center mt-2">${data.name}</h2>
-`;
-      document.getElementById("pokedexGrid").appendChild(card);
-    });
-});*/
-
-/*---display Pokemon V2 ----
-const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-favorites.forEach((pokemon) => {
-  const card = document.createElement("div");
-  card.className = "bg-white p-4 rounded shadow";
-  card.innerHTML = ` <img src="${pokemon.image}" alt="${
-    pokemon.name
-  }" class="mx-auto" /> <h2 class="text-center mt-2">${
-    pokemon.name
-  }</h2> <p class="text-center">${pokemon.types.join(", ")}</p> `;
-  document.getElementById("pokedexGrid").appendChild(card);
-});*/
 //Release Button
 function createReleaseButton(pokemon, cardElement) {
   const releaseButton = document.createElement("button");
@@ -208,10 +179,16 @@ function createReleaseButton(pokemon, cardElement) {
     favorites = favorites.filter((p) => p.name !== pokemon.name);
     localStorage.setItem("favorites", JSON.stringify(favorites));
 
+    const notes = JSON.parse(localStorage.getItem("pokemonNotes")) || {};
+    delete notes[pokemon.name];
+    localStorage.setItem("pokemonNotes", JSON.stringify(notes));
+
     // Element aus dem DOM entfernen
     cardElement.remove();
 
-    alert(`${pokemon.name} wurde aus den Favoriten entfernt.`);
+    alert(
+      `${pokemon.name} wurde aus den Favoriten entfernt und die Notiz wurde gelöscht`
+    );
   });
 
   return releaseButton;
@@ -235,7 +212,7 @@ function createNoteButton(pokemon, cardElement) {
     "duration-300"
   );
 
-  // Notizfeld unter der Karte anzeigen
+  // Notizfeld anzeigen
   const noteDisplay = document.createElement("p");
   noteDisplay.classList.add("mt-2", "text-sm", "text-gray-700");
   noteDisplay.style.whiteSpace = "pre-wrap";
@@ -266,32 +243,32 @@ const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 const grid = document.getElementById("pokedexGrid");
 
 favorites.forEach((pokemon) => {
-  // ► Karte
+  // card
   const card = document.createElement("div");
   card.className =
     "rounded-md p-4 bg-white transition duration-200 " +
     "shadow-[0_4px_8px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.5)] " +
     "hover:scale-105";
 
-  // ► Name-Balken
+  // name
   const name = document.createElement("h2");
   name.textContent = pokemon.name;
   name.className =
     "font-bold text-2xl mb-2 text-white bg-[#362717] rounded-md text-center";
 
-  // ► Bild
+  // image
   const img = document.createElement("img");
   img.src = pokemon.image;
   img.alt = pokemon.name;
   img.className = "max-w-[200px] h-[200px] block my-0 mx-auto";
 
-  // ► Typenzeile
+  // typ
   const types = document.createElement("p");
   types.textContent = `Type: ${pokemon.types.join(", ")}`;
   types.className =
     "text-[#53412D] py-4 mt-4 border-t-4 border-t-[#53412D]/20 text-xl text-center";
 
-  // ► Karte zusammenbauen
+  // Build all together
 
   const releaseButton = createReleaseButton(pokemon, card); //Release Button
   createNoteButton(pokemon, card);
