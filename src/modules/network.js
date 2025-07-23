@@ -30,8 +30,8 @@ export const fetchData = async () => {
  * @param {Array<Object>} results - An array of Pokémon objects containing URLs.
  * @returns {Promise<Array<Object>>} A promise that resolves to an array of Pokémon data objects.
  */
-const fetchPokemonData = async results => {
-  const pokemonDataPromises = results.map(async pokemon => {
+const fetchPokemonData = async (results) => {
+  const pokemonDataPromises = results.map(async (pokemon) => {
     try {
       const response = await fetch(pokemon.url);
       if (!response.ok) {
@@ -46,7 +46,7 @@ const fetchPokemonData = async results => {
   });
 
   const pokemonDataArray = await Promise.all(pokemonDataPromises);
-  return pokemonDataArray.filter(pokemonData => pokemonData !== null);
+  return pokemonDataArray.filter((pokemonData) => pokemonData !== null);
 };
 
 /**
@@ -55,7 +55,7 @@ const fetchPokemonData = async results => {
  * @param {Object} data - The data object containing an array of Pokémon.
  * @returns {Promise<void>}
  */
-const populate = async data => {
+const populate = async (data) => {
   const container = document.querySelector(".container");
   container.classList.add("my-8");
 

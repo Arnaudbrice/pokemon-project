@@ -3,7 +3,7 @@ import { fetchData, populate } from "./network.js";
 import {
   createPokemonCard,
   handleMouseOut,
-  handleMouseOver
+  handleMouseOver,
 } from "./display.js";
 import { searchPokemon } from "./searchFunction.js";
 import { createCatchButton } from "./catchFunction.js";
@@ -14,7 +14,7 @@ const BODY_STYLES = {
   backgroundImage:
     'url("https://transparenttextures.com/patterns/asfalt-dark.png")',
   fontFamily: "Afacad Flux, Afacad, sans-serif",
-  lineHeight: "1.5"
+  lineHeight: "1.5",
 };
 
 /**
@@ -66,7 +66,7 @@ const getPokemonContainer = () => {
  * @param {HTMLElement} container - DOM container to append cards to
  */
 const renderPokemonCards = (pokemonArray, container) => {
-  pokemonArray.forEach(pokemon => {
+  pokemonArray.forEach((pokemon) => {
     const card = createPokemonCardWithEvents(pokemon);
     container.appendChild(card);
   });
@@ -78,7 +78,7 @@ const renderPokemonCards = (pokemonArray, container) => {
  * @param {Object} pokemon - Pokemon data object
  * @returns {HTMLElement} Complete Pokemon card element with events attached
  */
-const createPokemonCardWithEvents = pokemon => {
+const createPokemonCardWithEvents = (pokemon) => {
   const card = createPokemonCard(pokemon);
   const catchButton = createCatchButton(pokemon);
 
@@ -93,7 +93,7 @@ const createPokemonCardWithEvents = pokemon => {
  *
  * @param {HTMLElement} element - DOM element to add events to
  */
-const addHoverEvents = element => {
+const addHoverEvents = (element) => {
   element.addEventListener("mouseover", handleMouseOver);
   element.addEventListener("mouseout", handleMouseOut);
 };
@@ -103,7 +103,7 @@ const addHoverEvents = element => {
  *
  * @param {Array} pokemonData - Array of Pokemon data for searching
  */
-const initializeSearch = pokemonData => {
+const initializeSearch = (pokemonData) => {
   searchPokemon(pokemonData);
 };
 
@@ -145,9 +145,9 @@ const STYLES = {
     "items-center",
     "text-center",
     "w-full",
-    "h-16"
+    "h-16",
   ],
-  footerText: ["text-white", "bg-[#362717]", "text-xl", "w-full", "p-4"]
+  footerText: ["text-white", "bg-[#362717]", "text-xl", "w-full", "p-4"],
 };
 
 /**
