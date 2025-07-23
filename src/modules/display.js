@@ -1,3 +1,4 @@
+// create basis card with name, picture and types
 export function createPokemonCard(pokemonData) {
   const pokemonContainerItem = document.createElement("div");
   const itemHeading = document.createElement("h2");
@@ -46,6 +47,7 @@ export function createPokemonCard(pokemonData) {
   );
   return pokemonContainerItem;
 }
+
 export function handleMouseOver(event) {
   this.style.transform = "scale(1.05)";
   this.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.5)";

@@ -22,7 +22,7 @@ async function main() {
 
   searchPokemon(allPokemonDataArray);
 
-  // --- display Pokémon V3 ---------------
+  // --- display Pokémon card with note and release buttons ---------------
   const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   favorites.forEach((pokemon) => {
     // ► Karte
